@@ -11,6 +11,11 @@ class Mendeley {
     $this->config = parse_ini_file(__DIR__ . '/../config.ini');
     if (empty($this->config['token']) || empty($this->config['token_secret'])) $this->authorize(); 
   }
+
+  function add_document($doc){
+    $content = array('document' => json_encode($doc));
+    return $this->http('library/documents', null, array('method' => 'POST', 'content' => $content));
+  }
   
   function cite($items, $style = 'nlm'){    
     array_walk($items, array($this, 'prepare_doc_for_citeproc'));
