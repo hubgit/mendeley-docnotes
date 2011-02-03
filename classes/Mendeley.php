@@ -6,6 +6,7 @@ require __DIR__ . '/HumanNameParser/Parser.php';
 
 class Mendeley {
   private $server = 'http://www.mendeley.com/oapi/';
+  private $citeproc_node = 'http://127.0.0.1:8085/';
   
   function __construct(){
     $this->config = parse_ini_file(__DIR__ . '/../config.ini');
@@ -22,7 +23,7 @@ class Mendeley {
     $content = json_encode(array('items' => $items));
     $http = array('method' => 'POST', 'header' => array('Content-Type: application/json'), 'content' => $content);
     $context = stream_context_create(array('http' => $http));
-    $url = url('http://127.0.0.1:8085/', array('responseformat' => 'html', 'style' => $style));
+    $url = url($this->citeproc_node, array('responseformat' => 'html', 'style' => $style));
     return file_get_contents($url, null, $context);
   }
   
