@@ -21,7 +21,7 @@ class Mendeley {
   function cite($items, $style = 'nlm'){    
     array_walk($items, array($this, 'prepare_doc_for_citeproc'));
     $content = json_encode(array('items' => $items));
-    $http = array('method' => 'POST', 'header' => array('Content-Type: application/json'), 'content' => $content);
+    $http = array('method' => 'POST', 'header' => array('Content-Type' => 'application/json'), 'content' => $content);
     $context = stream_context_create(array('http' => $http));
     $url = url($this->citeproc_node, array('responseformat' => 'html', 'style' => $style));
     return file_get_contents($url, null, $context);
@@ -61,7 +61,7 @@ class Mendeley {
   function http($path, $params = array(), $http = array()){
     $url = url($this->server . $path, $params);
     
-    $http = array_merge(array('method' => 'GET', 'content' => null, 'header' => array('Accept: application/json')), $http);
+    $http = array_merge(array('method' => 'GET', 'content' => null, 'header' => array('Accept' => 'application/json')), $http);
 
     try {    
       $oauth = $this->oauth();
